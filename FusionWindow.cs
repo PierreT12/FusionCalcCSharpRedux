@@ -47,12 +47,28 @@ namespace Personal_Project_Redux
             string text;
             Fusion fusison = new Fusion(m_result);
 
-             resultpairs = Fusion.StartFusion(m_result);
+            if(m_result.m_maxSL)
+            {
+                MessageBox.Show("This Persona requires a Max Social Link!\n" +
+                           "You will need to max out this Arcana's Social Link to Fuse This!", "Warning", MessageBoxButtons.OK);
+            }
 
+            if (m_result.m_sFusion)
+            {
+                MessageBox.Show("This Persona is a Special Fusion!\n" +
+                           "You will need all Personas listed to get it!", "Warning", MessageBoxButtons.OK);
+                resultpairs = Fusion.SpecialFusion(m_result);
+                DisplayResultsSingle(resultpairs);
+            }  
+            else
+            {
+                resultpairs = Fusion.StartFusion(m_result);
 
-             DisplayResults(resultpairs);
+                DisplayResults(resultpairs);
+            }
         }
 
+     
         private void DisplayResults(List<string> resultpairs)
         {
             
@@ -94,6 +110,50 @@ namespace Personal_Project_Redux
 
             }
 
+        }
+
+        private void DisplayResultsSingle(List<string> resultpairs)
+        {
+            Persona first;
+           foreach(var persona in resultpairs)
+            {
+
+
+                first = lastAccess.GetSinglePersona(connection, persona);
+                ListViewItem lvi;
+                ListViewItem.ListViewSubItem lvsi;
+
+
+                //First Persona 
+
+                lvi = new ListViewItem();
+                lvi.Text = first.m_name;
+
+
+                lvsi = new ListViewItem.ListViewSubItem();
+                lvsi.Text = first.m_arcana;
+                lvi.SubItems.Add(lvsi);
+
+                lvsi = new ListViewItem.ListViewSubItem();
+                lvsi.Text = first.m_level.ToString();
+                lvi.SubItems.Add(lvsi);
+
+                TableView.Items.Add(lvi);
+            }
+
+
+            for (int i = 0; i < TableView.Columns.Count; i++)
+            {
+                if (i == 2)
+                {
+                    TableView.Columns[i].Width = -2;
+                }
+                else
+                {
+                    TableView.Columns[i].Width = -1;
+                }
+
+            }
         }
 
 

@@ -31,11 +31,7 @@ namespace Personal_Project_Redux
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-
-
             LoadPersonas(mainAccess,connection);
-
 
         }
 
@@ -192,6 +188,16 @@ namespace Personal_Project_Redux
                 FusionWindow f = new FusionWindow(selection);
 
                 f.Show();
+            }
+            else if(selection.m_treasure)
+            {
+                MessageBox.Show("This Persona is a Treasure Demon!\n" +
+                           "These cannot be Reverse Fused! Sorry!", "Error", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("This Persona cannont be fused\n" +
+                          "Sorry! Please try a different Persona!", "Error", MessageBoxButtons.OK);
             }
             //Make if else statements later to give reasons why others can't fuse
 

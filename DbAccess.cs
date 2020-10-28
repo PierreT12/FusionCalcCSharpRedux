@@ -350,6 +350,64 @@ namespace Personal_Project_Redux
 
             tempAdd.Add(secondArcana);
         }
+
+
+        internal int GetPK(SQLiteConnection connection, string name)
+        {
+            int PK = 0;
+            string query = String.Format("SELECT Personas_Final.Main_ID " +
+                    "FROM Personas_Final " +
+                    "WHERE Name = '{0}'", name);
+
+            connection.ConnectionString = path;
+
+
+            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+            connection.Open();
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string str;
+                str = $"{reader.GetInt64(0)}";
+
+                PK = int.Parse(str);
+            }
+            connection.Close();
+
+
+            return PK;
+        }
+
+        internal List<string> GetSpecialResults(SQLiteConnection connection, int personaSF)
+        {
+            List<string> list = new List<string>();
+         
+
+            string query = String.Format("SELECT SpeFusion.Name " +
+                    "FROM SpecConnection " +
+                    "INNER JOIN SpeFusion " +
+                    "ON SpeFusion.SF_ID = SpecConnection.SF_ID " +
+                    "INNER JOIN Personas_Final " +
+                    "ON Personas_Final.Main_ID = SpecConnection.Main_ID " +
+                    "WHERE Personas_Final.Main_ID = '{0}'", personaSF);
+
+
+            connection.ConnectionString = path;
+
+            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+            connection.Open();
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                list.Add($"{reader.GetString(0)}");
+            }
+            connection.Close();
+            return list;
+        }
+
+        
     }
 
 }

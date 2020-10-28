@@ -36,20 +36,12 @@ namespace Personal_Project_Redux
             Dictionary<string, List<string>> pairs = new Dictionary<string, List<string>>();
 
 
-
-
-
-
-
             arcanaLvls = fusionAccess.GetArcanaLevels(connection, m_result.m_arcana);
             
 
             //Gets the Pair Aracna Matches from the Database
             pairs = fusionAccess.GetPairs(connection, m_result.m_arcana);
 
-
-
-            
 
             
             for (int i= 0; i < pairs.Count; i++)
@@ -72,7 +64,19 @@ namespace Personal_Project_Redux
 
         }
 
+        internal static List<string> SpecialFusion(Persona m_result)
+        {
+            List<string> specialResults = new List<string>();
 
+            //Gets the Primary Key
+            int personaSF = fusionAccess.GetPK(connection, m_result.m_name);
+
+            //Gets a list of the results
+            specialResults = fusionAccess.GetSpecialResults(connection, personaSF);
+
+
+            return specialResults;
+        }
 
         private static List<string> FusionCheck(List<Persona> first, List<Persona> second, List<int> arcanaLvls, Persona m_result)
         {
