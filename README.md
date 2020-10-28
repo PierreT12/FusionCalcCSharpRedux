@@ -14,11 +14,11 @@ Displays Persona Information (Name, Acrana Level, Stat, Magic Etc.) from databas
 Loads in images properly for each persona 
 Backwards Fusions  
 Search Function  
+Special Fusions  
 
 
 # Features that need to be reimplemented  
-Forward Fusions  
-Special Fusions  
+Forward Fusions    
 Settings Page  
 About Page  
 
