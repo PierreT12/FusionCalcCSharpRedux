@@ -11,16 +11,16 @@ Same Database as my C++ one.
 # Current Features
 
 Displays Persona Information (Name, Acrana Level, Stat, Magic Etc.) from database  
-Loads in images properly for each persona  
-
-
-# Features that need to be reimplemented
+Loads in images properly for each persona 
 Backwards Fusions  
+Search Function  
+
+
+# Features that need to be reimplemented  
 Forward Fusions  
 Special Fusions  
 Settings Page  
 About Page  
-Search Function
 
 
 # Needs New Logic entirely
@@ -30,7 +30,8 @@ I might not do this, from what I understand, the results can be pretty random. I
 Inherited Skills  
 
 # Recent Changes    
-None
+Backwards Fusions  
+Search Function
 
 # Known Bugs
 System.Data.SQLite doesn't like some image types  
