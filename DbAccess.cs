@@ -89,9 +89,9 @@ namespace Personal_Project_Redux
 
         }
 
-        
+       
 
-     public byte[] GetImage(SQLiteConnection connection, string name)
+        public byte[] GetImage(SQLiteConnection connection, string name)
         {
             byte[] imagebytes;
 
@@ -121,7 +121,7 @@ namespace Personal_Project_Redux
 
 
 
-     public List<string> GetMagic(SQLiteConnection connection, string name)
+         public List<string> GetMagic(SQLiteConnection connection, string name)
         {
             List<string> list = new List<string>();
             string query = String.Format("SELECT Str_Wea_Final.Phys, " +
@@ -163,9 +163,9 @@ namespace Personal_Project_Redux
             return list;
         }
 
-       
+        
 
-     public List<string> GetStats(SQLiteConnection connection, string name)
+        public List<string> GetStats(SQLiteConnection connection, string name)
         {
             List<string> list = new List<string>();
 
@@ -200,7 +200,7 @@ namespace Personal_Project_Redux
         }
 
 
-     public List<string> GetSearchResults(SQLiteConnection connection, string searchTerms)
+        public List<string> GetSearchResults(SQLiteConnection connection, string searchTerms)
      {
             List<string> list = new List<string>();
             searchTerms = "%" + searchTerms + "%";
@@ -226,7 +226,7 @@ namespace Personal_Project_Redux
      }
 
 
-    internal List<int> GetArcanaLevels(SQLiteConnection connection, string m_arcana)
+        internal List<int> GetArcanaLevels(SQLiteConnection connection, string m_arcana)
     {
             List<int> levels = new List<int>();
 
@@ -407,7 +407,139 @@ namespace Personal_Project_Redux
             return list;
         }
 
-        
+
+
+        internal List<Persona> FFGetPersonas(SQLiteConnection connection, Persona m_result)
+        {
+            List<Persona> list = new List<Persona>();
+            
+            string query = String.Format("SELECT Personas_Final.name, " +
+                    "Arcana.name, " +
+                    "Personas_Final.Level, " +
+                    "Personas_Final.Fuseable, " +
+                    "Personas_Final.SpecialFusion, " +
+                    "Personas_Final.Max_SL, " +
+                    "Personas_Final.Treasure " +
+                    "FROM Personas_Final " +
+                    "INNER JOIN Arcana " +
+                    "ON Arcana.Arcana_ID = Personas_Final.Arcana " +
+                    "WHERE Personas_Final.Name != '{0}'" +
+                    "AND Personas_Final.Fuseable = 'TRUE' " , m_result.m_name);
+
+
+            connection.ConnectionString = path;
+
+
+            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+            connection.Open();
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                Persona selection = new Persona();
+                selection.m_name = $"{reader.GetString(0).ToString()}";
+                selection.m_arcana = $"{reader.GetString(1).ToString()}";
+                string str = $"{reader.GetInt32(2).ToString()}";
+                selection.m_level = int.Parse(str);
+                selection.m_fuseable = Convert.ToBoolean($"{reader.GetString(3)}");
+                selection.m_sFusion = Convert.ToBoolean($"{reader.GetString(4)}");
+                selection.m_maxSL = Convert.ToBoolean($"{reader.GetString(5)}");
+                selection.m_treasure = Convert.ToBoolean($"{reader.GetString(6)}");
+
+                list.Add(selection);
+            }
+
+            connection.Close();
+
+            return list;
+        }
+
+
+        internal string GetTarget(SQLiteConnection connection, string m_arcana1, string m_arcana2)
+        {
+            string result = null;
+
+            string query = String.Format("SELECT Arcana.Name " +
+                    "FROM PairConnection " +
+                    "INNER JOIN Pairs " +
+                    "ON Pairs.Pair_ID = PairConnection.Pair_ID " +
+                    "INNER JOIN Arcana " +
+                    "ON Arcana.Arcana_ID = PairConnection.Arcana_ID " +
+                    "WHERE Pairs.First_Arcana = '{0}' " +
+                    "AND Pairs.Second_Arcana =  '{1}'", m_arcana1, m_arcana2);
+
+
+            connection.ConnectionString = path;
+
+
+            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+            connection.Open();
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+
+                result = $"{reader.GetString(0).ToString()}";
+                
+            }
+
+            connection.Close();
+
+
+            return result;
+        }
+
+
+
+        internal Persona GetResultPersona(SQLiteConnection connection, string targetArcana, int roundedLevel)
+        {
+            Persona selection = new Persona();
+            string query = String.Format("SELECT Personas_Final.name, " +
+                    "Arcana.name, " +
+                    "Personas_Final.Level, " +
+                    "Personas_Final.Fuseable, " +
+                    "Personas_Final.SpecialFusion, " +
+                    "Personas_Final.Max_SL " +
+                    "FROM Personas_Final " +
+                    "INNER JOIN Arcana " +
+                    "ON Arcana.Arcana_ID = Personas_Final.Arcana " +
+                    "WHERE Arcana.Name = '{0}' " +
+                    "AND Personas_Final.Fuseable = 'TRUE' " +
+                    "AND Personas_Final.Spoiler = 'FALSE'" +
+                    "AND Personas_Final.SpecialFusion = 'FALSE' " +
+                    "AND Personas_Final.Level = '{1}'", targetArcana, roundedLevel);
+
+
+            connection.ConnectionString = path;
+
+
+            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+            connection.Open();
+            SQLiteDataReader reader = cmd.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+
+                selection.m_name = $"{reader.GetString(0).ToString()}";
+                selection.m_arcana = $"{reader.GetString(1).ToString()}";
+                string str = $"{reader.GetInt32(2).ToString()}";
+                selection.m_level = int.Parse(str);
+                selection.m_fuseable = Convert.ToBoolean($"{reader.GetString(3)}");
+                selection.m_sFusion = Convert.ToBoolean($"{reader.GetString(4)}");
+                selection.m_maxSL = Convert.ToBoolean($"{reader.GetString(5)}");
+
+            }
+
+            connection.Close();
+
+
+            return selection;
+        }
+
+     
     }
 
 }

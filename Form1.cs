@@ -203,5 +203,23 @@ namespace Personal_Project_Redux
 
 
         }
+
+        private void ffBtn_Click(object sender, EventArgs e)
+        {
+            string name = (string)personaBox.SelectedItem;
+            Persona selection = mainAccess.GetSinglePersona(connection, name);
+
+            if (selection.m_treasure)
+            {
+                MessageBox.Show("This Persona is a Treasure Demon!\n" +
+                           "I haven't implemented this yet for Treasure Demons! Sorry!", "Error", MessageBoxButtons.OK);
+            }
+
+            FusionWindow f = new FusionWindow(selection);
+
+            f.ForwardFusion(selection);
+
+            f.Show();
+        }
     }
 }

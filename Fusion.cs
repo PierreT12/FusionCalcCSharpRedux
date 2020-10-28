@@ -78,6 +78,31 @@ namespace Personal_Project_Redux
             return specialResults;
         }
 
+        internal static List<string> StartFFusion(Persona m_result)
+        {
+            List<Persona> allPersonas = new List<Persona>();
+            List<string> matches = new List<string>();
+            string output;
+
+
+            allPersonas = fusionAccess.FFGetPersonas(connection,m_result);
+
+            for (int i = 0; i < allPersonas.Count; i++)
+            {
+                output = FFCheck(m_result, allPersonas.ElementAt(i));
+
+                //Sometimes Nothing is returned so we don't wanna add
+                //That to the list
+                if (output != null)
+                {
+                    matches.Add(output);
+                }
+            }
+
+            return matches;
+        }
+
+     
         private static List<string> FusionCheck(List<Persona> first, List<Persona> second, List<int> arcanaLvls, Persona m_result)
         {
             List<string> resultList = new List<string>();
@@ -129,6 +154,50 @@ namespace Personal_Project_Redux
 
 
             return resultList;
+        }
+
+        private static string FFCheck(Persona m_result, Persona persona)
+        {
+            string resultstr = null;
+
+            List<int> arcanaLvls = new List<int>();
+            Persona outputPersona;
+            bool sameArcana;
+            int calcLevel;
+            int roundedLevel;
+
+            //Gets the Target Arcana if these two Arcanas are combinded
+           string targetArcana = fusionAccess.GetTarget(connection,m_result.m_arcana, persona.m_arcana);
+
+            //Do a null and empty check because sometimes there is no result
+            //From GetTarget
+            if (targetArcana != null) 
+            {
+                //Does the same thing that it does in Reverse Fusion
+                arcanaLvls = fusionAccess.GetArcanaLevels(connection,targetArcana);
+
+                sameArcana = SamePerArcana(m_result, persona);
+
+                calcLevel = CalculateLevel(m_result.m_level, persona.m_level);
+
+                //Finds out what rounding to do and performs it
+                roundedLevel = RoundType(calcLevel,
+                                         sameArcana,
+                                         m_result,
+                                         persona,
+                                         arcanaLvls);
+
+                //The result can be different depending on DLC Characters
+                //So this check is in place to make sure it stays in line
+                //With the settings the user has set
+                
+                    outputPersona = fusionAccess.GetResultPersona(connection, targetArcana, roundedLevel);
+            
+
+                if (outputPersona.m_name != null)
+                    resultstr = persona.m_name + ":" + outputPersona.m_name;
+            }
+            return resultstr;
         }
 
 
@@ -252,8 +321,7 @@ namespace Personal_Project_Redux
             return roundedLevel;
         }
 
-       
-
+      
         private static bool FinalCheck(int roundedLevel, int realLevel, string first, string second, List<string> resultList)
         {
             bool correct = false;
