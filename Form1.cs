@@ -15,20 +15,23 @@ namespace Personal_Project_Redux
 {
     public partial class Form1 : Form
     {
-
+        static string path = null;
+        static SQLiteConnection connection = new SQLiteConnection();
+        DbAccess mainAccess = new DbAccess(path, connection);
 
         public Form1()
         {
             InitializeComponent();
 
-            
+            //Get Fuse Working
+            //Get Forward Fuse working
+            searchBox.PreviewKeyDown += ClickEnter;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string path = null;
-            SQLiteConnection connection = new SQLiteConnection();
-            DbAccess mainAccess = new DbAccess(path, connection);
+            
 
 
             LoadPersonas(mainAccess,connection);
@@ -57,9 +60,7 @@ namespace Personal_Project_Redux
         private void personaBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-            string path = null;
-            SQLiteConnection connection = new SQLiteConnection();
-            DbAccess mainAccess = new DbAccess(path, connection);
+            
             List<string> stats = new List<string>();
             List<string> magic = new List<string>();
 
@@ -78,7 +79,6 @@ namespace Personal_Project_Redux
         }
 
       
-
         private void SetToDisplay(Persona selection, byte[] imagebytes)
         {
             NameLbl.Text = selection.m_name;
@@ -140,7 +140,6 @@ namespace Personal_Project_Redux
 
         }
 
-
         private void SetMagic(List<string> magic)
         {
             magicBox.Items.Clear();
@@ -155,6 +154,48 @@ namespace Personal_Project_Redux
             }
         }
 
-     
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void ClickEnter(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                PerformSearch();
+        }
+
+        private void PerformSearch()
+        {
+            string searchTerms = searchBox.Text;
+            List<string> searchResults = new List<string>();
+
+            searchResults = mainAccess.GetSearchResults(connection,searchTerms);
+
+            personaBox.Items.Clear();
+
+            for (int i = 0; i < searchResults.Count; i++)
+            {
+                personaBox.Items.Add(searchResults.ElementAt(i));
+            }
+
+
+        }
+
+        private void fuseBtn_Click(object sender, EventArgs e)
+        {
+            string name = (string)personaBox.SelectedItem;
+            Persona selection = mainAccess.GetSinglePersona(connection, name);
+
+            if(selection.m_fuseable)
+            {
+                FusionWindow f = new FusionWindow(selection);
+
+                f.Show();
+            }
+            //Make if else statements later to give reasons why others can't fuse
+
+
+        }
     }
 }

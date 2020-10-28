@@ -40,12 +40,12 @@
             this.magicBox = new System.Windows.Forms.ListView();
             this.Elemental = new System.Windows.Forms.ImageList(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.LvLLbl = new System.Windows.Forms.Label();
-            this.ArcanaLbl = new System.Windows.Forms.Label();
             this.NameLbl = new System.Windows.Forms.Label();
+            this.ArcanaLbl = new System.Windows.Forms.Label();
+            this.LvLLbl = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.displayBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +81,7 @@
             this.fuseBtn.TabIndex = 5;
             this.fuseBtn.Text = "Fuse This";
             this.fuseBtn.UseVisualStyleBackColor = true;
+            this.fuseBtn.Click += new System.EventHandler(this.fuseBtn_Click);
             // 
             // ffBtn
             // 
@@ -107,8 +108,9 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(416, 46);
             this.button3.TabIndex = 8;
-            this.button3.Text = "button3";
+            this.button3.Text = "Search";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // StatsBox
             // 
@@ -164,41 +166,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General Information";
             // 
-            // label1
+            // NameLbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 74);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Persona:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 192);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 32);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Arcana: ";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 363);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(99, 32);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Level: ";
-            // 
-            // LvLLbl
-            // 
-            this.LvLLbl.AutoSize = true;
-            this.LvLLbl.Location = new System.Drawing.Point(174, 363);
-            this.LvLLbl.Name = "LvLLbl";
-            this.LvLLbl.Size = new System.Drawing.Size(84, 32);
-            this.LvLLbl.TabIndex = 3;
-            this.LvLLbl.Text = "Level";
+            this.NameLbl.AutoSize = true;
+            this.NameLbl.Location = new System.Drawing.Point(174, 74);
+            this.NameLbl.Name = "NameLbl";
+            this.NameLbl.Size = new System.Drawing.Size(121, 32);
+            this.NameLbl.TabIndex = 5;
+            this.NameLbl.Text = "Persona";
             // 
             // ArcanaLbl
             // 
@@ -209,19 +184,47 @@
             this.ArcanaLbl.TabIndex = 4;
             this.ArcanaLbl.Text = "Arcana";
             // 
-            // NameLbl
+            // LvLLbl
             // 
-            this.NameLbl.AutoSize = true;
-            this.NameLbl.Location = new System.Drawing.Point(174, 74);
-            this.NameLbl.Name = "NameLbl";
-            this.NameLbl.Size = new System.Drawing.Size(121, 32);
-            this.NameLbl.TabIndex = 5;
-            this.NameLbl.Text = "Persona";
+            this.LvLLbl.AutoSize = true;
+            this.LvLLbl.Location = new System.Drawing.Point(174, 363);
+            this.LvLLbl.Name = "LvLLbl";
+            this.LvLLbl.Size = new System.Drawing.Size(84, 32);
+            this.LvLLbl.TabIndex = 3;
+            this.LvLLbl.Text = "Level";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(35, 363);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 32);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Level: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(35, 192);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(120, 32);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Arcana: ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(35, 74);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(129, 32);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Persona:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1913, 1424);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.magicBox);
