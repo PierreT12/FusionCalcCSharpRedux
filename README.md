@@ -15,10 +15,9 @@ Loads in images properly for each persona
 Backwards Fusions  
 Search Function  
 Special Fusions  
+Forward Fusions 
 
-
-# Features that need to be reimplemented  
-Forward Fusions    
+# Features that need to be reimplemented     
 Settings Page  
 About Page  
 
@@ -29,9 +28,9 @@ I might not do this, from what I understand, the results can be pretty random. I
   
 Inherited Skills  
 
-# Recent Changes    
-Backwards Fusions  
-Search Function
+# Recent Changes      
+Search Function  
+Forward Fusions  
 
 # Known Bugs
 System.Data.SQLite doesn't like some image types  
